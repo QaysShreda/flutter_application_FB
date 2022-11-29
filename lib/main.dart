@@ -5,10 +5,10 @@ import 'package:flutter_application_1/views/screens/home_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
-WidgetsFlutterBinding.ensureInitialized();
-await Firebase.initializeApp(
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
   runApp(const MyApp());
 }
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Fire Base',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -36,4 +36,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
