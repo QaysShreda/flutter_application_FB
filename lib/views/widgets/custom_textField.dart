@@ -4,20 +4,21 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class CustomTextField extends StatelessWidget {
   final Function validation;
-  final Function onSave;
   final String label;
+  final TextEditingController ctr;
 
   const CustomTextField(
       {super.key,
       required this.validation,
       required this.label,
-      required this.onSave});
+      required this.ctr
+      });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onSaved: ((value) => onSave),
-      validator: ((value) => validation()),
+      controller: ctr,
+      validator: ((value) => validation(value)),
       decoration: InputDecoration(
           hintText: label,
           border: OutlineInputBorder(

@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/auth/auth_helper.dart';
+import 'package:flutter_application_1/provider/auth_provider.dart';
+import 'package:flutter_application_1/views/widgets/custom_textField.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatelessWidget {
-  TextEditingController mailController = TextEditingController();
+  TextEditingController fNameController = TextEditingController();
+  TextEditingController lNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailControlller = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -14,49 +20,58 @@ class SignUpScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("FireBase"),
       ),
-      body: Form(
+      body: Consumer<AuthProvider>(builder: (context,provider,x){
+return Form(
         key: formKey,
-        child: Column(children: [
-          TextFormField(
-            validator: (v) {
-              if (v == null) {
-                return "erquired field";
-              } else if (!(v.contains('@'))) {
-                return 'Incorrect email';
-              }
-            },
-            controller: mailController,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), hintText: 'Enter Your Email'),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(children: [
+              SizedBox(height: 20,),
+              CustomTextField(
+                ctr: fNameController,
+                validation: provider.requiredValidator,
+                 label: "Your Name", 
+                 ),
+                  SizedBox(height: 20,),
+                 CustomTextField(
+                  validation: provider.requiredValidator,
+                   label: "Enter your last name", 
+                   ctr: lNameController),
+                  SizedBox(height: 20,),
+                  CustomTextField(
+                    validation: provider.phoneValidator,
+                     label: "Enter phone number",
+                      ctr: phoneController),
+                  SizedBox(height: 20,),
+                  CustomTextField(validation: provider.emailValidator,
+                   label: "Your email", 
+                   ctr: emailControlller),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomTextField(validation: provider.passwordValidator,
+               label: "Enter password", 
+               ctr: passwordController),
+        
+                const SizedBox(
+                height: 20,
+              ),
+              OutlinedButton(
+                  onPressed: () {
+                    bool isValid = formKey.currentState!.validate();
+                    if (isValid) {
+                      AuthHelper.authHelper
+                          .signUp(emailControlller.text, passwordController.text);
+                    }
+                  },
+                  child: Text('Save'))
+            ]),
           ),
-          const SizedBox(
-            height: 40,
-          ),
-          TextFormField(
-            validator: (v) {
-              if (v == null) {
-                return "required field";
-              } else if (v.length <= 6) {
-                return 'Error, the password should be larger than 6 letters';
-              }
-            },
-            controller: passwordController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Password',
-            ),
-          ),
-          OutlinedButton(
-              onPressed: () {
-                bool isValid = formKey.currentState!.validate();
-                if (isValid) {
-                  AuthHelper.authHelper
-                      .signUp(mailController.text, passwordController.text);
-                }
-              },
-              child: Text('Save'))
-        ]),
-      ),
-    );
+        ),
+      );
+      }
+      
+    ),);
   }
 }
