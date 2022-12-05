@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_application_1/auth/auth_helper.dart';
+
 import 'package:flutter_application_1/provider/auth_provider.dart';
 import 'package:flutter_application_1/views/widgets/custom_textField.dart';
 import 'package:provider/provider.dart';
+
+import '../../repo/auth/auth_helper.dart';
 
 class SignUpScreen extends StatelessWidget {
   TextEditingController fNameController = TextEditingController();
@@ -62,7 +64,7 @@ return Form(
                     bool isValid = formKey.currentState!.validate();
                     if (isValid) {
                       AuthHelper.authHelper
-                          .signUp(emailControlller.text, passwordController.text);
+                          .signUp(emailControlller.text, passwordController.text,fNameController.text,lNameController.text,phoneController.text);
                     }
                   },
                   child: Text('Save'))

@@ -2,14 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
 
+import '../models/user.dart';
+
 class AuthProvider extends ChangeNotifier {
   GlobalKey<FormState> signInKey = GlobalKey();
   GlobalKey<FormState> signUpKey = GlobalKey();
 
-
+  UserModel userModel = UserModel();
   
   late String email;
   late String password;
+  UserModel user = UserModel();
 
 
   String? emailValidator(String email) {
@@ -27,7 +30,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   String? phoneValidator(String phone){
-    if (phone == null || isNumeric(phone) || phone.isEmpty ){
+    if (phone == null || !isNumeric(phone) || phone.isEmpty ){
       return "Incorrect phone number" ;
     }
   }
